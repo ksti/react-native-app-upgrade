@@ -11,7 +11,7 @@
 RCT_EXPORT_MODULE(upgrade)
 
 RCT_EXPORT_METHOD(upgrade:(NSString *)storeappID callback:(RCTResponseSenderBlock)callback){
-  
+
   //2先获取当前工程项目版本号
   NSDictionary *infoDic=[[NSBundle mainBundle] infoDictionary];
   NSString*currentVersion=infoDic[@"CFBundleShortVersionString"];
@@ -37,7 +37,7 @@ RCT_EXPORT_METHOD(upgrade:(NSString *)storeappID callback:(RCTResponseSenderBloc
   NSDictionary *dic = array[0];
   //商店版本号
   NSString *appStoreVersion = dic[@"version"];
-  
+
   NSLog(@"当前版本号:%@\n商店版本号:%@",currentVersion,appStoreVersion);
   //设置版本号，主要是为了区分不同的版本，比如有1.2.1、1.2、1.31各种类型
   currentVersion = [currentVersion stringByReplacingOccurrencesOfString:@"." withString:@""];
@@ -52,7 +52,7 @@ RCT_EXPORT_METHOD(upgrade:(NSString *)storeappID callback:(RCTResponseSenderBloc
   }else if (appStoreVersion.length==1){
     appStoreVersion  = [appStoreVersion stringByAppendingString:@"00"];
   }
-  
+
   //4当前版本号小于商店版本号,就更新
   if([currentVersion floatValue] < [appStoreVersion floatValue])
   {
@@ -63,15 +63,15 @@ RCT_EXPORT_METHOD(upgrade:(NSString *)storeappID callback:(RCTResponseSenderBloc
 //                [[UIApplication sharedApplication] openURL:url];
 //            }];
 //            UIAlertAction *actionNo = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-//    
+//
 //            }];
 //            [alercConteoller addAction:actionYes];
 //            [alercConteoller addAction:actionNo];
-//    
+//
 //          UIViewController * vc = [[[UIApplication sharedApplication].delegate window] rootViewController];
 //            [vc presentViewController:alercConteoller animated:YES completion:nil];
-    
-    
+
+
     callback( [[NSArray alloc] initWithObjects:@"YES", nil]);
 
   }else{
@@ -79,12 +79,12 @@ RCT_EXPORT_METHOD(upgrade:(NSString *)storeappID callback:(RCTResponseSenderBloc
     callback( [[NSArray alloc] initWithObjects:@"NO", nil]);
 
   }
-  
+
 }
 RCT_EXPORT_METHOD(openAPPStore:(NSString *)storeappID ){
   //此处加入应用在app store的地址，方便用户去更新，一种实现方式如下
   NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/us/app/id%@?ls=1&mt=8", storeappID]];
-  [[UIApplication sharedApplication] openURL:url];
+  [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
 
 }
 
